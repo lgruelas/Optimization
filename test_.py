@@ -1,5 +1,4 @@
-def add(a, b):
-    return a + b
+from pyoptclass import add
 
 def test_add():
     assert (add(2, 4) == 6)

@@ -25,12 +25,16 @@ To start the virtual enviroment use:
 source virtualenv_opt/bin/activate
 ```
 
-And install dependencies.
-
+Install the package with 
 ```
-pip install -r requirements.txt
+chmod +x setup.sh
+./setup.sh
 ```
 
+to exit the virtual enviroment just run
+```
+deactivate
+```
 ## Built With
 
 * [Python](https://www.python.org/downloads/)
