@@ -1,6 +1,11 @@
 # remove old versions of the library
-pip uninstall -y pyoptclass
-rm -rf aptclass/Pyoptclass.egg-info
+if pip list --format columns | grep Pyoptclass;
+then
+	pip uninstall -y pyoptclass
+else 
+	echo "No previous installation found";
+fi
+rm -rf pyoptclass/Pyoptclass.egg-info
 rm pyoptclass/pyoptclass/__init__.pyc
 
 #install the library
