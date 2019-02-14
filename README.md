@@ -3,6 +3,8 @@
 
 # Optimization
 
+![Python master race](assets/python.png?raw=true "python")
+
 ## Getting started
 
 Install python and virtualenv.
