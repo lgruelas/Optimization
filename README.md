@@ -37,6 +37,19 @@ to exit the virtual enviroment just run
 ```
 deactivate
 ```
+
+## Unit Tests
+
+To run the test run install dependencies with
+```
+pip install -r requirements.txt 
+```
+and use
+```
+python -m pytest -v
+```
+whit the virtual environment activate
+
 ## Built With
 
 * [Python](https://www.python.org/downloads/)

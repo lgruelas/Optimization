@@ -7,7 +7,8 @@ fi
 
 
 rm -rf pyoptclass/Pyoptclass.egg-info
-rm pyoptclass/pyoptclass/__init__.pyc
+rm pyoptclass/pyoptclass/*.pyc
+
 
 #install the library
 cd pyoptclass

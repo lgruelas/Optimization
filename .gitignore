@@ -103,3 +103,8 @@ virtualenv_opt
 
 # mypy
 .mypy_cache/
+
+
+my_try.py
+
+.directory
