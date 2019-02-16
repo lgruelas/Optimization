@@ -1,4 +1,5 @@
 [run]
+source = 
+    pyoptclass/
+    Optimization/
 omit = pyoptclass/pyoptclass/tests
-source = pyoptclass/
-source = Optimization/
