@@ -1,0 +1,2 @@
+[run]
+omit = pyoptclass/pyoptclass/tests
