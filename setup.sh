@@ -8,7 +8,9 @@ fi
 
 rm -rf pyoptclass/Pyoptclass.egg-info
 rm pyoptclass/pyoptclass/*.pyc
-
+rm -rf __pycache__
+rm -rf .pytest_cache
+rm -rf pyoptclass/pyoptclass/tests/__pycache__
 
 #install the library
 cd pyoptclass

@@ -1,4 +1,5 @@
 [![Build Status](https://api.travis-ci.org/lgruelas/Optimization.svg?branch=master)](https://travis-ci.org/lgruelas/Differential-Evolution)
+[![Coverage Status](https://coveralls.io/repos/github/lgruelas/Optimization/badge.svg?branch=master)](https://coveralls.io/github/lgruelas/Optimization?branch=master)
 [![license](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://github.com/lgruelas/Optimization/blob/master/LICENSE)
 
 # Optimization

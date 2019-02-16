@@ -3,9 +3,10 @@ language: python
 python:
   - "2.7"
 install:
+  - pip install -r requirements.txt
   - chmod +x setup.sh
   - ./setup.sh
 branches:
   only:
     - master
-script: pytest
+script: pytest -v

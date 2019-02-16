@@ -9,7 +9,7 @@ def sortByX(element):
     '''
     if type(element) != list and type(element) != np.array:
         raise ValueError('Must be list or array.')
-    return element.sort()
+    return element.sort(key=lambda x: x.X)
 
 def sortByY(element):
     '''
