@@ -8,5 +8,7 @@ def test_Point2D():
         errors.append('error')
     if not (point_float.X == 3.5 and point_float.Y == 2.1):
         errors.append('error')
+    if not (point_float.__repr__() == '(3.50, 2.10)' and point_int.__repr__() == '(3.00, 4.00)'):
+        errors.append('error')
     assert not errors
     
