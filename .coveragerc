@@ -2,4 +2,5 @@
 source = 
     pyoptclass/
     Optimization/
-omit = pyoptclass/pyoptclass/tests
+omit = pyoptclass/pyoptclass/tests/*
+    pyoptclass/setup.py
