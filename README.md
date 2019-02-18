@@ -56,7 +56,6 @@ whit the virtual environment activate
 
 * [Python](https://www.python.org/downloads/)
 
-
 ## Authors
 
 * **Jorge Alanis** - [GitHub](https://github.com/GeorgeAlanis)
