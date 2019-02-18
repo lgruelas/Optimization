@@ -11,6 +11,6 @@ install:
 branches:
   only:
     - master
-script: pytest --cov --cov-config .coveragerc
+script: pytest -v --cov --cov-config .coveragerc
 after_success:
   - coveralls

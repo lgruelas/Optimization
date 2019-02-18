@@ -1,5 +1,6 @@
 [![Build Status](https://api.travis-ci.org/lgruelas/Optimization.svg?branch=master)](https://travis-ci.org/lgruelas/Optimization)
 [![Coverage Status](https://coveralls.io/repos/github/lgruelas/Optimization/badge.svg?branch=master&service=github)](https://coveralls.io/github/lgruelas/Optimization?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0427f6cf79164385bcd5c59ba59d0334)](https://app.codacy.com/app/lgruelas/Optimization?utm_source=github.com&utm_medium=referral&utm_content=lgruelas/Optimization&utm_campaign=Badge_Grade_Dashboard)
 [![license](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://github.com/lgruelas/Optimization/blob/master/LICENSE)
 
 # Optimization
