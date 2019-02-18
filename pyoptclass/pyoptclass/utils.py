@@ -1,4 +1,3 @@
-import pyoptclass.classes as classes
 import numpy as np
 
 def sortByX(element):
@@ -7,7 +6,7 @@ def sortByX(element):
         INPUT: list or np.array of Point2D class.
         RETURN: void.
     '''
-    if type(element) != list and type(element) != np.array:
+    if not isinstance(element, list) and type(element) != np.array:
         raise ValueError('Must be list or array.')
     return element.sort(key=lambda x: x.X)
 
@@ -17,6 +16,6 @@ def sortByY(element):
         INPUT: list or np.array of Point2D class.
         RETURN: void.
     '''
-    if type(element) != list and type(element) != np.array:
+    if not isinstance(element, list) and type(element) != np.array:
         raise ValueError('Must be list or array.')
     return element.sort(key=lambda x: x.Y)
