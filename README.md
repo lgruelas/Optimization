@@ -11,7 +11,7 @@
 
 Install python and virtualenv.
 
-```
+```bash
 sudo dnf -y install python2
 sudo dnf -y install python2-pip
 pip2 install --user virtualenv
@@ -19,35 +19,35 @@ pip2 install --user virtualenv
 
 Then create the virtual enviroment.
 
-```
+```bash
 virtualenv -p python2 virtualenv_opt
 ```
 
 To start the virtual enviroment use:
 
-```
+```bash
 source virtualenv_opt/bin/activate
 ```
 
 Install the package with 
-```
+```bash
 chmod +x setup.sh
 ./setup.sh
 ```
 
-to exit the virtual enviroment just run
-```
+to exit the virtual environment just run
+```bash
 deactivate
 ```
 
 ## Unit Tests
 
 To run the test run install dependencies with
-```
+```bash
 pip install -r requirements.txt 
 ```
 and use
-```
+```bash
 python -m pytest -v
 ```
 whit the virtual environment activate
