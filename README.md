@@ -54,9 +54,9 @@ whit the virtual environment activate
 
 ## Built With
 
-* [Python](https://www.python.org/downloads/)
+*   [Python](https://www.python.org/downloads/)
 
 ## Authors
 
-* **Jorge Alanis** - [GitHub](https://github.com/GeorgeAlanis)
-* **Germán Ruelas** - [GitHub](https://github.com/lgruelas)
+*   **Jorge Alanis** - [GitHub](https://github.com/GeorgeAlanis)
+*   **Germán Ruelas** - [GitHub](https://github.com/lgruelas)
