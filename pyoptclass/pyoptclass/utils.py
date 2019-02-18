@@ -31,7 +31,7 @@ def turnRight(points, point2):
 
 def turnLeft(points, point2):
     '''
-        INPUT: 
+        INPUT:
             - point, list of two point2D, just the last two elements are used.
             - point2, Point2D instance, the last one
         RETURN: boolean, true if it represents a turn right.
