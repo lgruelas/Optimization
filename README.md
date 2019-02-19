@@ -22,7 +22,10 @@ Then create the virtual enviroment.
 ```bash
 virtualenv -p python2 virtualenv_opt
 ```
-
+if fails try with
+```bash
+python -m virtualenv -p python2 virtualenv_opt
+```
 To start the virtual enviroment use:
 
 ```bash
