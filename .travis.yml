@@ -13,4 +13,4 @@ branches:
     - master
 script: pytest -v --cov --cov-config .coveragerc
 after_success:
-  - coveralls
+  - codecov
