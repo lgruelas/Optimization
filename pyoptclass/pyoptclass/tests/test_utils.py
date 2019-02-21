@@ -47,9 +47,14 @@ def test_sortByY_exception():
         assert True
 
 def test_getConvexHull():
+    errors = []
     points_set = [classes.Point2D(2.5, 0), classes.Point2D(3.5, 0.5), classes.Point2D(1, 1), classes.Point2D(2, 2), classes.Point2D(3, 2.5), classes.Point2D(4, 3), classes.Point2D(2.5, 3), classes.Point2D(3, 3)]
     convex_hull = utils.getConvexHull(points_set)
-    assert convex_hull == [classes.Point2D(1, 1), classes.Point2D(2.5, 3), classes.Point2D(4, 3), classes.Point2D(3.5, 0.5), classes.Point2D(2.5, 0)]
+    if not convex_hull == [classes.Point2D(1, 1), classes.Point2D(2.5, 3), classes.Point2D(4, 3), classes.Point2D(3.5, 0.5), classes.Point2D(2.5, 0)]:
+        errors.append("error")
+    if not points_set != [classes.Point2D(2.5, 0), classes.Point2D(3.5, 0.5), classes.Point2D(1, 1), classes.Point2D(2, 2), classes.Point2D(3, 2.5), classes.Point2D(4, 3), classes.Point2D(2.5, 3), classes.Point2D(3, 3)]:
+        errors.append("error")
+    assert not errors
 
 def test_turnRight():
     points_set = [classes.Point2D(1, 1), classes.Point2D(2, 2), classes.Point2D(2.5, 3), classes.Point2D(3, 2.5), classes.Point2D(3, 3)]
@@ -70,5 +75,24 @@ def test_turnLeft():
     if utils.turnLeft(points_set[:2], points_set[3]):
         errors.append("error")
     if utils.turnLeft(points_set[:2], points_set[4]):
+        errors.append("error")
+    assert not errors
+
+def test_areaConvexPolygon():
+    errors = []
+    items = [(1, 1), (3, 1), (1, 3), (3, 3)]
+    a = [classes.PdV(i[0], i[1], 0) for i in items]
+    a = utils.getConvexHull(a)
+    if not utils.getConvexPolygonArea(a) == 4:
+        errors.append("error")
+    items.append((3,4))
+    a = [classes.PdV(i[0], i[1], 0) for i in items]
+    a = utils.getConvexHull(a)
+    if not utils.getConvexPolygonArea(a) == 5:
+        errors.append("error")
+    items = [(-2, -2), (2, -2), (0, 2)]
+    a = [classes.PdV(i[0], i[1], 0) for i in items]
+    a = utils.getConvexHull(a)
+    if not utils.getConvexPolygonArea(a) == 8:
         errors.append("error")
     assert not errors
