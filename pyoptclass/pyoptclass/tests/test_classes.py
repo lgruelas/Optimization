@@ -42,7 +42,7 @@ def test_Cluster():
         errors.append("error")
     cluster.push_back(cl.PdV(3, 5, 2))
     if not cluster.total_time == sum([i[1]+1 for i in items]) + 2:
-        errors.append("error") 
+        errors.append("error")
     if not cluster.size() == 6:
         errors.append("error")
     if not cluster.area() == 6:
