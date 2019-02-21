@@ -30,4 +30,53 @@ def test_PdV():
     assert not errors
 
 def test_Cluster():
-    pass
+    items = [(1, 1), (3, 1), (1, 3), (3, 3), (3, 4)]
+    cluster = cl.ClusterPdV([cl.PdV(i[0], i[1], i[1]+1) for i in items])
+    errors = []
+    if not cluster.total_time == sum([i[1]+1 for i in items]):
+        errors.append("error")
+    for i, j in zip(cluster.elements(), sorted(items)):
+        if i.X != j[0] or i.Y != j[1]:
+            errors.append("error")
+    if not cluster.area() == 5:
+        errors.append("error")
+    cluster.push_back(cl.PdV(3, 5, 2))
+    if not cluster.total_time == sum([i[1]+1 for i in items]) + 2:
+        errors.append("error") 
+    if not cluster.size() == 6:
+        errors.append("error")
+    if not cluster.area() == 6:
+        errors.append("error")
+    assert not errors
+
+
+
+'''
+class ClusterPdV:
+    def __init__(self, pdvs=[]):
+        self._elements = pdvs
+        self.total_time = 0
+        self._convex_hull = utils.getConvexHull(self._elements)
+        self._area = utils.getConvexPolygonArea(self._convex_hull)
+        for i in pdvs:
+            self.total_time += i.time_store
+    def elements(self):
+        for i in self._elements:
+            yield i
+    def push_back(self, pdv):
+        self.total_time += pdv.time_store
+        self._elements.appned(pdv)
+        self._convex_hull = utils.getConvexHull(self._elements)
+        self._area = utils.getConvexPolygonArea(self._convex_hull)
+    def pop_back(self):
+        self.total_time -= self._elements[-1].time_store
+        self._convex_hull = utils.getConvexHull(self._elements[:-1])
+        self._area = utils.getConvexPolygonArea(self._convex_hull)
+        return self._elements.pop()
+    def convex_hull(self):
+        return self._convex_hull
+    def area(self):
+        return self._area
+    def size(self):
+        return len(self._elements)
+'''

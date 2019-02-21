@@ -56,3 +56,14 @@ def getConvexHull(elements):
         lower.append(elements[i])
     sortByX(lower, reverse=True)
     return upper + lower[1:-1]
+
+def getConvexPolygonArea(elements):
+    '''
+        INPUT: list of Point2D instances in clockwise order.
+        RETURN: Area of the polygon represented by those points.
+    '''
+    area = elements[-1].Y * elements[0].X - elements[-1].X * elements[0].Y
+    for i in xrange(len(elements)-1):
+        area -= elements[i].X * elements[i+1].Y
+        area += elements[i+1].X * elements[i].Y
+    return area/2.
