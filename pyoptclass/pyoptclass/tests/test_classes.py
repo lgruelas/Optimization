@@ -48,35 +48,3 @@ def test_Cluster():
     if not cluster.area() == 6:
         errors.append("error")
     assert not errors
-
-
-
-'''
-class ClusterPdV:
-    def __init__(self, pdvs=[]):
-        self._elements = pdvs
-        self.total_time = 0
-        self._convex_hull = utils.getConvexHull(self._elements)
-        self._area = utils.getConvexPolygonArea(self._convex_hull)
-        for i in pdvs:
-            self.total_time += i.time_store
-    def elements(self):
-        for i in self._elements:
-            yield i
-    def push_back(self, pdv):
-        self.total_time += pdv.time_store
-        self._elements.appned(pdv)
-        self._convex_hull = utils.getConvexHull(self._elements)
-        self._area = utils.getConvexPolygonArea(self._convex_hull)
-    def pop_back(self):
-        self.total_time -= self._elements[-1].time_store
-        self._convex_hull = utils.getConvexHull(self._elements[:-1])
-        self._area = utils.getConvexPolygonArea(self._convex_hull)
-        return self._elements.pop()
-    def convex_hull(self):
-        return self._convex_hull
-    def area(self):
-        return self._area
-    def size(self):
-        return len(self._elements)
-'''
