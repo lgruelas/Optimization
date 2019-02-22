@@ -3,7 +3,7 @@ from numpy.random import ranf
 
 class Particle:
     def __init__(self, clusters):
-        self.clusters = clusters
+        self._clusters = clusters
         self.centroids = []
         self.store_times = []
         self.vel = np.zeros(len(clusters))
@@ -26,7 +26,16 @@ class Particle:
             self.vel[i] = (W * self.vel) + (C1 * R1 * (self.best_centroids - self.centroids[i])) + (C2 * R2 * (Gb - self.centroids))
             self.centroids[i] += self.vel[i]
 
-        self.calculate_clusters()
+class PSO:
+    def __init__(self, data, n_particles, max_iter=10, W=1, C1=.5, C2=.5):
+        self.Gb = float('inf')
+        self.data = data
+        self.n_particles= n_particles
+        self.max_iter = max_iter
+        self.W = W
+        self.C1 = C1
+        self.C2 = C2
+        self.
 
-    def calculate_clusters(self):
+
 

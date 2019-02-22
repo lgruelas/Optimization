@@ -72,5 +72,5 @@ def getConvexPolygonArea(elements):
 def getData(file_path='Sprint7ToroideMixto.csv'):
     data = pd.read_csv(file_path)
     data['tiempo_en_tienda'] = data['demanda'] * data['frecuencia']
-    puntos = np.array(list(zip(data.lat.values, data.lon.values, data.tiempo_en_tienda.values)))
-    return puntos
+    stores = np.array(list(zip(data.lat.values, data.lon.values, data.tiempo_en_tienda.values)))
+    return stores
