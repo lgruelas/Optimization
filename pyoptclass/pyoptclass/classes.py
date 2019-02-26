@@ -8,6 +8,8 @@ class Point2D:
         return "(%.2f, %.2f)" % (self.X, self.Y)
     def __eq__(self, point):
         return self.X == point.X and self.Y == point.Y
+    def __add__(self,y):
+        return
 
 class PdV(Point2D):
     def __init__(self, x, y, time_store):
