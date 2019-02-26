@@ -55,7 +55,7 @@ class Particle:
 class PSO:
     def __init__(self, data, n_particles, seed=42, max_iter=10, W=1, C1=.5, C2=.5):
         self.Gb_centroids = [float('-inf') for _ in xrange(12)]
-        self.Gb_fit = float["-inf"]
+        self.Gb_fit = float("-inf")
         self.data = data
         self.n_particles = n_particles
         self.max_iter = max_iter
