@@ -2,6 +2,7 @@ import numpy as np
 from numpy.random import ranf
 from pyoptclass import utils
 
+
 class Particle:
     def __init__(self, clusters):
         self._clusters = clusters
@@ -20,7 +21,7 @@ class Particle:
     def fit_function(self):
         return -1.0 * np.var(self.store_times)
 
-    def move(self,W,C1,C2,Gb):
+    def move(self, W, C1, C2, Gb):
         R1, R2 = ranf(size=2)
 
         for i in xrange(len(self.centroids)):
@@ -49,6 +50,7 @@ class Particle:
             for j in moved:
                 self._clusters[i].remove(j)
 
+
 class PSO:
     def __init__(self, data, n_particles, seed=42, max_iter=10, W=1, C1=.5, C2=.5):
         self.Gb_centroids = [float('-inf') for _ in xrange(12)]
@@ -65,7 +67,7 @@ class PSO:
     def search(self):
         for _ in xrange(self.max_iter):
             for particle in self.population:
-                particle.move(self.W,self.C1,self.C2,self.Gb)
+                particle.move(self.W, self.C1, self.C2, self.Gb)
                 if particle.fitnes > self.Gb_fit:
                     self.Gb_fit = particle.fitnes
                     self.Gb_centroids = particle.centroids
