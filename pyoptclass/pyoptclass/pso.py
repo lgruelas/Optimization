@@ -1,6 +1,6 @@
 import numpy as np
 from numpy.random import ranf
-from pyoptclass import utils as utl
+from pyoptclass import utils
 
 class Particle:
     def __init__(self, clusters):
@@ -60,7 +60,7 @@ class PSO:
         self.C1 = C1
         self.C2 = C2
         self.seed = np.random.RandomState(seed)
-        self.population = utl.generate_population(data, self.seed)
+        self.population = utils.generate_population(data, self.seed)
 
     def search(self):
         for _ in xrange(self.max_iter):
