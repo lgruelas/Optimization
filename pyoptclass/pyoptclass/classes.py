@@ -19,9 +19,9 @@ class PdV(Point2D):
         return self == pdv
 
 class ClusterPdV:
-    def __init__(self, pdvs=None, centroid=None):
-        self.centroid = centroid or []
-        self._elements = pdvs or []
+    def __init__(self, pdvs, centroid):
+        self.centroid = centroid
+        self._elements = pdvs
         self.total_time = 0
         self._convex_hull = utils.getConvexHull(self._elements)
         self._area = utils.getConvexPolygonArea(self._convex_hull)

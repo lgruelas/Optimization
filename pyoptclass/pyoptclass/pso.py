@@ -76,7 +76,7 @@ class PSO:
 
     def generate_population(self, n_clusters=13):
         population = []
-        for i in range(self.n_particles):
+        for i in xrange(self.n_particles):
             individuo = []
             cluster = KMeans(n_clusters=n_clusters, random_state=self.seed)
             cluster_labels = cluster.fit_predict(self.data[:, 0:2])
@@ -84,10 +84,10 @@ class PSO:
                                          'y': self.data[:, 1],
                                          'time_store': self.data[:, 2],
                                          'cluster': cluster_labels})
-            for i in range(n_clusters):
+            for i in xrange(n_clusters):
                 individuo.append(
                     classes.ClusterPdV([classes.PdV(*individuo[:-1]) for individuo in individuo_df[individuo_df.cluster == i].values],
                                cluster.cluster_centers_[i]))
-                individuo = Particle(individuo)
-            population.append(individuo)
+
+            population.append(Particle(individuo))
         return population
