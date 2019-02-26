@@ -20,7 +20,7 @@ class PdV(Point2D):
 
 #Remains the problem of remove one element
 class ClusterPdV:
-    def __init__(self, centroid=[], pdvs=None):
+    def __init__(self, centroid=None, pdvs=None):
         self.centroid = centroid
         self._elements = pdvs or []
         self.total_time = 0

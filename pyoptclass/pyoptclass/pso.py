@@ -28,7 +28,7 @@ class Particle:
 
 class PSO:
     def __init__(self, data, n_particles, max_iter=10, W=1, C1=.5, C2=.5):
-        self.Gb = float('inf')
+        self.Gb = -1.0 * float('inf')
         self.data = data
         self.n_particles= n_particles
         self.max_iter = max_iter
@@ -36,6 +36,7 @@ class PSO:
         self.C1 = C1
         self.C2 = C2
         self.
+
 
 
 
