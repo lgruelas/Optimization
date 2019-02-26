@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from sklearn.cluster import KMeans
 
 def sortByX(element, reverse=False):
     '''
@@ -69,7 +70,7 @@ def getConvexPolygonArea(elements):
         area += elements[i+1].X * elements[i].Y
     return area/2.
 
-def getData(file_path='Sprint7ToroideMixto.csv'):
+def getData(file_path='../assets/Sprint7ToroideMixto.csv'):
     data = pd.read_csv(file_path)
     data['tiempo_en_tienda'] = data['demanda'] * data['frecuencia']
     stores = np.array(list(zip(data.lat.values, data.lon.values, data.tiempo_en_tienda.values)))
@@ -77,3 +78,17 @@ def getData(file_path='Sprint7ToroideMixto.csv'):
 
 def euclidean(p1, p2):
     return (p1.X - p2.X) * (p1.X - p2.X) + (p1.Y - p2.Y) * (p1.Y - p2.Y)
+def generate_population(puntos, seeds, n_clusters=13, N=100):
+    population = []
+    for i in range(N):
+        individuo = []
+        clusters = KMeans(n_clusters=n_clusters, random_state=seeds[i])
+        cluster_labels = clusters.fit_predict(puntos[:,0:2])
+        individuo_df = pd.DataFrame({'x': puntos[:,0],
+                            'y': puntos[:,1],
+                            'time_store': puntos[:,2],
+                            'cluster':cluster_labels})
+        for i in range(n_clusters):
+            individuo.append(ClusterPdV([PdV(*individuo[:-1]) for individuo in individuo_df[individuo_df.cluster == i].values], cluster.cluster_centers_[i]))
+        population.append(individuo)
+    return population
