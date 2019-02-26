@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
-#from pyoptclass import pso, classes
+from pyoptclass.classes import ClusterPdV, PdV
+from pyoptclass.pso import Particle
 
 def sortByX(element, reverse=False):
     '''
@@ -85,14 +86,14 @@ def generate_population(puntos, seed, n_clusters=13, N=100):
     population = []
     for i in range(N):
         individuo = []
-        clusters = KMeans(n_clusters=n_clusters, random_state=seed)
-        cluster_labels = clusters.fit_predict(puntos[:, 0:2])
+        cluster = KMeans(n_clusters=n_clusters, random_state=seed)
+        cluster_labels = cluster.fit_predict(puntos[:, 0:2])
         individuo_df = pd.DataFrame({'x': puntos[:, 0],
                             'y': puntos[:, 1],
                             'time_store': puntos[:, 2],
                             'cluster':cluster_labels})
         for i in range(n_clusters):
-            individuo.append(classes.ClusterPdV([classes.PdV(*individuo[:-1]) for individuo in individuo_df[individuo_df.cluster == i].values], cluster.cluster_centers_[i]))
-            individuo = pso.Particle(individuo)
+            individuo.append(ClusterPdV([PdV(*individuo[:-1]) for individuo in individuo_df[individuo_df.cluster == i].values], cluster.cluster_centers_[i]))
+            individuo = Particle(individuo)
         population.append(individuo)
     return population
