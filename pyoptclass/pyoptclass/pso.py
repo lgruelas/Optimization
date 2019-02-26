@@ -1,7 +1,8 @@
 import numpy as np
+import pandas as pd
 from numpy.random import ranf
-from pyoptclass import utils
-
+from pyoptclass import utils, classes
+from sklearn.cluster import KMeans
 
 class Particle:
     def __init__(self, clusters):
@@ -62,7 +63,7 @@ class PSO:
         self.C1 = C1
         self.C2 = C2
         self.seed = np.random.RandomState(seed)
-        self.population = utils.generate_population(data, self.seed)
+        self.population = self.generate_population()
 
     def search(self):
         for _ in xrange(self.max_iter):
@@ -72,3 +73,21 @@ class PSO:
                     self.Gb_fit = particle.fitnes
                     self.Gb_centroids = particle.centroids
         return self.Gb_centroids, self.Gb_fit
+
+    def generate_population(self, n_clusters=13):
+        population = []
+        for i in range(self.n_particles):
+            individuo = []
+            cluster = KMeans(n_clusters=n_clusters, random_state=self.seed)
+            cluster_labels = cluster.fit_predict(self.data[:, 0:2])
+            individuo_df = pd.DataFrame({'x': self.data[:, 0],
+                                         'y': self.data[:, 1],
+                                         'time_store': self.data[:, 2],
+                                         'cluster': cluster_labels})
+            for i in range(n_clusters):
+                individuo.append(
+                    classes.ClusterPdV([classes.PdV(*individuo[:-1]) for individuo in individuo_df[individuo_df.cluster == i].values],
+                               cluster.cluster_centers_[i]))
+                individuo = Particle(individuo)
+            population.append(individuo)
+        return population
