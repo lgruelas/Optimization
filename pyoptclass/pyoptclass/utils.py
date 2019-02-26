@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
-from pyoptclass import pso, classes
+#from pyoptclass import pso, classes
 
 def sortByX(element, reverse=False):
     '''
