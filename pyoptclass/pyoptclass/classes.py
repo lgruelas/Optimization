@@ -18,7 +18,6 @@ class PdV(Point2D):
     def samePlace(self, pdv):
         return self == pdv
 
-#Remains the problem of remove one element
 class ClusterPdV:
     def __init__(self, pdvs=None, centroid=None):
         self.centroid = centroid or []
@@ -37,6 +36,12 @@ class ClusterPdV:
         self.total_time += pdv.time_store
         self._elements.append(pdv)
         self._convex_hull = utils.getConvexHull(self._elements)
+        self._area = utils.getConvexPolygonArea(self._convex_hull)
+    def remove(self, pdv):
+        self.total_time -= pdv.time_store
+        self._elements.remove(pdv)
+        if pdv in self._convex_hull:
+            self._convex_hull.remove(pdv)
         self._area = utils.getConvexPolygonArea(self._convex_hull)
     def convex_hull(self):
         return self._convex_hull

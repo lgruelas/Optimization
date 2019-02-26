@@ -74,3 +74,6 @@ def getData(file_path='Sprint7ToroideMixto.csv'):
     data['tiempo_en_tienda'] = data['demanda'] * data['frecuencia']
     stores = np.array(list(zip(data.lat.values, data.lon.values, data.tiempo_en_tienda.values)))
     return stores
+
+def euclidean(p1, p2):
+    return (p1.X - p2.X) * (p1.X - p2.X) + (p1.Y - p2.Y) * (p1.Y - p2.Y)

@@ -1,1 +1,1 @@
-__all__ = ['classes', 'utils']
+__all__ = ['classes', 'utils', 'pso']
