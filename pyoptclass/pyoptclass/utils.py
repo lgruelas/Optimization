@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
-from pyoptclass import pso
+from pyoptclass import pso, classes
 
 def sortByX(element, reverse=False):
     '''
@@ -92,7 +92,7 @@ def generate_population(puntos, seed, n_clusters=13, N=100):
                             'time_store': puntos[:, 2],
                             'cluster':cluster_labels})
         for i in range(n_clusters):
-            individuo.append(ClusterPdV([PdV(*individuo[:-1]) for individuo in individuo_df[individuo_df.cluster == i].values], cluster.cluster_centers_[i]))
-            individuo = Particle(individuo)
+            individuo.append(classes.ClusterPdV([classes.PdV(*individuo[:-1]) for individuo in individuo_df[individuo_df.cluster == i].values], cluster.cluster_centers_[i]))
+            individuo = pso.Particle(individuo)
         population.append(individuo)
     return population
