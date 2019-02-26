@@ -20,8 +20,8 @@ class PdV(Point2D):
 
 #Remains the problem of remove one element
 class ClusterPdV:
-    def __init__(self, centroid=None, pdvs=None):
-        self.centroid = centroid
+    def __init__(self, pdvs=None, centroid=None):
+        self.centroid = centroid or []
         self._elements = pdvs or []
         self.total_time = 0
         self._convex_hull = utils.getConvexHull(self._elements)
