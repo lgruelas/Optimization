@@ -6,6 +6,6 @@ setup(name = "Pyoptclass",
     author_email = "lgruelas@hotmail.com",
     packages = ["pyoptclass"],
     license = "GPL-3",
-    install_requires = ["numpy"],
+    install_requires = ["numpy","pandas"],
     url = "https://github.com/lgruelas/Optimization/tree/master/pyoptclass"
 )

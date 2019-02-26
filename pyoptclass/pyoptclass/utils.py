@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 def sortByX(element, reverse=False):
     '''
@@ -67,3 +68,9 @@ def getConvexPolygonArea(elements):
         area -= elements[i].X * elements[i+1].Y
         area += elements[i+1].X * elements[i].Y
     return area/2.
+
+def getData(file_path='Sprint7ToroideMixto.csv'):
+    data = pd.read_csv(file_path)
+    data['tiempo_en_tienda'] = data['demanda'] * data['frecuencia']
+    stores = np.array(list(zip(data.lat.values, data.lon.values, data.tiempo_en_tienda.values)))
+    return stores
