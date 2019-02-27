@@ -103,6 +103,9 @@ def test_euclidean():
     a = [classes.PdV(i[0], i[1], 0) for i in items]
     for i in a:
         for j in a:
+            print i, j
+            print utils.euclidean(i, j)
+            print (i.X - j.X)**2 + (i.Y - j.Y)**2
             if utils.euclidean(i, j) != (i.X - j.X)**2 + (i.Y - j.Y)**2:
                 errors.append('error')
     assert not errors
