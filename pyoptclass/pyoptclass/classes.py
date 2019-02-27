@@ -41,8 +41,8 @@ class ClusterPdV:
         self.total_time -= pdv.time_store
         self._elements.remove(pdv)
         if pdv in self._convex_hull:
-            self._convex_hull.remove(pdv)
-        self._area = utils.getConvexPolygonArea(self._convex_hull)
+            self._convex_hull = utils.getConvexHull(self._elements)
+            self._area = utils.getConvexPolygonArea(self._convex_hull)
     def convex_hull(self):
         return self._convex_hull
     def area(self):

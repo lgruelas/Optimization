@@ -96,3 +96,13 @@ def test_areaConvexPolygon():
     if not utils.getConvexPolygonArea(a) == 8:
         errors.append("error")
     assert not errors
+
+def test_euclidean():
+    errors = []
+    items = [(1, 1), (3, 1), (1, 3)]
+    a = [classes.PdV(i[0], i[1], 0) for i in items]
+    for i in a:
+        for j in a:
+            if utils.euclidean(i, j) != (i.X - j.X)**2 + (i.Y - j.Y)**2:
+                errors.append('error')
+    assert not errors

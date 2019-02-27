@@ -47,4 +47,9 @@ def test_Cluster():
         errors.append("error")
     if not cluster.area() == 6:
         errors.append("error")
+    cluster.remove(cl.PdV(3, 5, 2))
+    if not cluster.area() == 5:
+        errors.append("error")
+    if not cluster.size() == 5:
+        errors.append("error")
     assert not errors
