@@ -76,4 +76,5 @@ def getData(file_path='../assets/Sprint7ToroideMixto.csv'):
     return stores
 
 def euclidean(p1, p2):
-    return (p1.X - p2.X) * (p1.X - p2.X) + (p1.Y - p2.Y) * (p1.Y - p2.Y)
+    return (p1 - p2) * (p1 - p2)
+#    return (p1.X - p2.X) * (p1.X - p2.X) + (p1.Y - p2.Y) * (p1.Y - p2.Y)

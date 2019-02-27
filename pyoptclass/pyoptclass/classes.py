@@ -8,6 +8,8 @@ class Point2D:
         return "(%.2f, %.2f)" % (self.X, self.Y)
     def __eq__(self, point):
         return self.X == point.X and self.Y == point.Y
+    def __add__(self,y):
+        return
 
 class PdV(Point2D):
     def __init__(self, x, y, time_store):
@@ -19,9 +21,9 @@ class PdV(Point2D):
         return self == pdv
 
 class ClusterPdV:
-    def __init__(self, pdvs=None, centroid=None):
-        self.centroid = centroid or []
-        self._elements = pdvs or []
+    def __init__(self, pdvs, centroid):
+        self.centroid = centroid
+        self._elements = pdvs
         self.total_time = 0
         self._convex_hull = utils.getConvexHull(self._elements)
         self._area = utils.getConvexPolygonArea(self._convex_hull)

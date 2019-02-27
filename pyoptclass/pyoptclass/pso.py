@@ -9,7 +9,7 @@ class Particle:
         self._clusters = clusters
         self.centroids = []
         self.store_times = []
-        self.vel = np.zeros(len(clusters))
+        self.vel = np.zeros([len(clusters), 2])
 
         for clusterPdV in clusters:
             self.centroids.append(clusterPdV.centroid)
@@ -26,7 +26,11 @@ class Particle:
         R1, R2 = ranf(size=2)
 
         for i in xrange(len(self.centroids)):
-            self.vel[i] = (W * self.vel) + (C1 * R1 * (self.best_centroids - self.centroids[i])) + (C2 * R2 * (Gb - self.centroids))
+            print(self.best_centroids[i])
+            print(self.centroids[i])
+            print(Gb[i])
+            print((W * self.vel[i]) + (C1 * R1 * (self.best_centroids[i] - self.centroids[i])) + (C2 * R2 * (Gb[i] - self.centroids[i])))
+            self.vel[i] = (W * self.vel[i]) + (C1 * R1 * (self.best_centroids[i] - self.centroids[i])) + (C2 * R2 * (Gb[i] - self.centroids[i]))
             self.centroids[i] += self.vel[i]
 
         self.recluster()
@@ -43,7 +47,7 @@ class Particle:
                 moved = []
                 for w in xrange(len(self.centroids)):
                     if utils.euclidean(j, self.centroids[w]) < smallest:
-                        smallest[0] =  utils.euclidean(j, self.centroids[w])
+                        smallest[0] = utils.euclidean(j, self.centroids[w])
                         smallest[1] = w
                 if smallest[1] != i:
                     self._clusters[smallest[1]].append(j)
@@ -54,8 +58,8 @@ class Particle:
 
 class PSO:
     def __init__(self, data, n_particles, seed=42, max_iter=10, W=1, C1=.5, C2=.5):
-        self.Gb_centroids = [float('-inf') for _ in xrange(12)]
-        self.Gb_fit = float["-inf"]
+        self.Gb_centroids = [float('-inf') for _ in xrange(13)]
+        self.Gb_fit = float("-inf")
         self.data = data
         self.n_particles = n_particles
         self.max_iter = max_iter
@@ -66,9 +70,10 @@ class PSO:
         self.population = self.generate_population()
 
     def search(self):
+        self.find_best()
         for _ in xrange(self.max_iter):
             for particle in self.population:
-                particle.move(self.W, self.C1, self.C2, self.Gb)
+                particle.move(self.W, self.C1, self.C2, self.Gb_centroids)
                 if particle.fitnes > self.Gb_fit:
                     self.Gb_fit = particle.fitnes
                     self.Gb_centroids = particle.centroids
@@ -76,7 +81,7 @@ class PSO:
 
     def generate_population(self, n_clusters=13):
         population = []
-        for i in range(self.n_particles):
+        for i in xrange(self.n_particles):
             individuo = []
             cluster = KMeans(n_clusters=n_clusters, random_state=self.seed)
             cluster_labels = cluster.fit_predict(self.data[:, 0:2])
@@ -84,10 +89,16 @@ class PSO:
                                          'y': self.data[:, 1],
                                          'time_store': self.data[:, 2],
                                          'cluster': cluster_labels})
-            for i in range(n_clusters):
+            for i in xrange(n_clusters):
                 individuo.append(
-                    classes.ClusterPdV([classes.PdV(*individuo[:-1]) for individuo in individuo_df[individuo_df.cluster == i].values],
+                    classes.ClusterPdV([classes.PdV(*point[:-1]) for point in individuo_df[individuo_df.cluster == i].values],
                                cluster.cluster_centers_[i]))
-                individuo = Particle(individuo)
-            population.append(individuo)
+
+            population.append(Particle(individuo))
         return population
+
+    def find_best(self):
+        for particle in self.population:
+            if particle.fitnes > self.Gb_fit:
+                self.Gb_fit = particle.fitnes
+                self.Gb_centroids = particle.centroids

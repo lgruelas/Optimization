@@ -31,7 +31,7 @@ def test_PdV():
 
 def test_Cluster():
     items = [(1, 1), (3, 1), (1, 3), (3, 3), (3, 4)]
-    cluster = cl.ClusterPdV([cl.PdV(i[0], i[1], i[1]+1) for i in items])
+    cluster = cl.ClusterPdV([cl.PdV(i[0], i[1], i[1]+1,[0,0]) for i in items])
     errors = []
     if not cluster.total_time == sum([i[1]+1 for i in items]):
         errors.append("error")
