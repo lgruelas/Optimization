@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from tqdm import tqdm
 from numpy.random import ranf
 from pyoptclass import utils, classes
 from sklearn.cluster import KMeans
@@ -26,12 +27,12 @@ class Particle:
         R1, R2 = ranf(size=2)
 
         for i in xrange(len(self.centroids)):
-            print(self.best_centroids[i])
-            print(self.centroids[i])
-            print(Gb[i])
-            print((W * self.vel[i]) + (C1 * R1 * (self.best_centroids[i] - self.centroids[i])) + (C2 * R2 * (Gb[i] - self.centroids[i])))
-            self.vel[i] = (W * self.vel[i]) + (C1 * R1 * (self.best_centroids[i] - self.centroids[i])) + (C2 * R2 * (Gb[i] - self.centroids[i]))
-            self.centroids[i] += self.vel[i]
+            #print(self.best_centroids[i])
+            #print(self.centroids[i])
+            #print(Gb[i])
+            #print((W * self.vel[i]) + (C1 * R1 * (utils.euclidean(self.best_centroids[i] , self.centroids[i]))) + (C2 * R2 * (utils.euclidean(Gb[i] , self.centroids[i]))))
+            self.vel[i] = (W * self.vel[i]) + (C1 * R1 * (utils.euclidean(self.best_centroids[i] , self.centroids[i]))) + (C2 * R2 * (utils.euclidean(Gb[i] , self.centroids[i])))
+            self.centroids[i] += classes.Point2D(*self.vel[i])
 
         self.recluster()
         self.fitnes = self.fit_function()
@@ -50,7 +51,7 @@ class Particle:
                         smallest[0] = utils.euclidean(j, self.centroids[w])
                         smallest[1] = w
                 if smallest[1] != i:
-                    self._clusters[smallest[1]].append(j)
+                    self._clusters[smallest[1]].push_back(j)
                     moved.append(j)
             for j in moved:
                 self._clusters[i].remove(j)
@@ -71,13 +72,13 @@ class PSO:
 
     def search(self):
         self.find_best()
-        for _ in xrange(self.max_iter):
+        for _ in tqdm(xrange(self.max_iter)):
             for particle in self.population:
                 particle.move(self.W, self.C1, self.C2, self.Gb_centroids)
                 if particle.fitnes > self.Gb_fit:
                     self.Gb_fit = particle.fitnes
                     self.Gb_centroids = particle.centroids
-        return self.Gb_centroids, self.Gb_fit
+        return self.Gb_fit, self.Gb_centroids
 
     def generate_population(self, n_clusters=13):
         population = []
@@ -92,7 +93,7 @@ class PSO:
             for i in xrange(n_clusters):
                 individuo.append(
                     classes.ClusterPdV([classes.PdV(*point[:-1]) for point in individuo_df[individuo_df.cluster == i].values],
-                               cluster.cluster_centers_[i]))
+                               classes.Point2D(*cluster.cluster_centers_[i])))
 
             population.append(Particle(individuo))
         return population
