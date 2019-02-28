@@ -1,4 +1,5 @@
 from pyoptclass import utils
+import copy
 
 class Point2D:
     def __init__(self, x, y):
@@ -38,8 +39,8 @@ class PdV(Point2D):
 
 class ClusterPdV:
     def __init__(self, pdvs, centroid=None):
-        self.centroid = centroid or [None, None]
-        self._elements = pdvs
+        self.centroid = copy.deepcopy(centroid) or [None, None]
+        self._elements = copy.deepcopy(pdvs)
         self.total_time = 0
         self._convex_hull = utils.getConvexHull(self._elements)
         self._area = utils.getConvexPolygonArea(self._convex_hull)
@@ -58,9 +59,9 @@ class ClusterPdV:
     def remove(self, pdv):
         self.total_time -= pdv.time_store
         self._elements.remove(pdv)
-        if pdv in self._convex_hull:
-            self._convex_hull = utils.getConvexHull(self._elements)
-            self._area = utils.getConvexPolygonArea(self._convex_hull)
+        #if pdv in self._convex_hull:
+        #    self._convex_hull = utils.getConvexHull(self._elements)
+         #   self._area = utils.getConvexPolygonArea(self._convex_hull)
     def convex_hull(self):
         return self._convex_hull
     def area(self):
@@ -72,5 +73,8 @@ class ClusterPdV:
             self.centroid = new
         else:
             raise ValueError("New center must be a list of length 2.")
+    def update(self):
+        self._convex_hull = utils.getConvexHull(self._elements)
+        self._area = utils.getConvexPolygonArea(self._convex_hull)
 
 

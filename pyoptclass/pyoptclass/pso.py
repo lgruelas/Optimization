@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import copy
 from tqdm import tqdm
 from numpy.random import ranf
 from pyoptclass import utils, classes
@@ -7,30 +8,27 @@ from sklearn.cluster import KMeans
 
 class Particle:
     def __init__(self, clusters):
-        self._clusters = clusters
+        self._clusters = copy.deepcopy(clusters)
         self.centroids = []
         self.store_times = []
+        self.fitnes = float('-inf')
         self.vel = np.zeros([len(clusters), 2])
 
         for clusterPdV in clusters:
             self.centroids.append(clusterPdV.centroid)
             self.store_times.append(clusterPdV.total_time)
 
-        self.fitnes = self.fit_function()
-        self.best_centroids = self.centroids
+        self.fit_function()
+        self.best_centroids = copy.deepcopy(self.centroids)
         self.best_fitnes = self.fitnes
 
     def fit_function(self):
-        return -1.0 * np.var(self.store_times)
+        self.fitnes = -1.0 * np.var(self.store_times)
 
     def move(self, W, C1, C2, Gb):
         R1, R2 = ranf(size=2)
 
         for i in xrange(len(self.centroids)):
-            #print(self.best_centroids[i])
-            #print(self.centroids[i])
-            #print(Gb[i])
-            #print((W * self.vel[i]) + (C1 * R1 * (utils.euclidean(self.best_centroids[i] , self.centroids[i]))) + (C2 * R2 * (utils.euclidean(Gb[i] , self.centroids[i]))))
             self.vel[i] = (W * self.vel[i]) + (C1 * R1 * (utils.euclidean(self.best_centroids[i] , self.centroids[i]))) + (C2 * R2 * (utils.euclidean(Gb[i] , self.centroids[i])))
             self.centroids[i] += classes.Point2D(*self.vel[i])
 
@@ -39,7 +37,7 @@ class Particle:
 
         if self.fitnes > self.best_fitnes:
             self.best_fitnes = self.fitnes
-            self.best_centroids = self.centroids
+            self.best_centroids = self.centroids[:]
 
     def recluster(self):
         for i in xrange(len(self._clusters)):
@@ -53,8 +51,9 @@ class Particle:
                 if smallest[1] != i:
                     self._clusters[smallest[1]].push_back(j)
                     moved.append(j)
-            for j in moved:
-                self._clusters[i].remove(j)
+            if moved != []:
+                for m in moved:
+                    self._clusters[i].remove(m)
 
 
 class PSO:
@@ -72,17 +71,22 @@ class PSO:
 
     def search(self):
         self.find_best()
-        for _ in tqdm(xrange(self.max_iter)):
-            for particle in self.population:
-                particle.move(self.W, self.C1, self.C2, self.Gb_centroids)
-                if particle.fitnes > self.Gb_fit:
-                    self.Gb_fit = particle.fitnes
-                    self.Gb_centroids = particle.centroids
-        return self.Gb_fit, self.Gb_centroids
+        with tqdm(total=self.max_iter, unit=' Epoch') as pb:
+            pb.set_postfix(var=self.Gb_fit)
+            for _ in xrange(self.max_iter):
+                for particle in self.population:
+                    particle.move(self.W, self.C1, self.C2, self.Gb_centroids)
+                    if particle.fitnes > self.Gb_fit:
+                        self.Gb_fit = particle.fitnes
+                        self.Gb_centroids = particle.centroids[:]
+                        pb.set_postfix(var=self.Gb_fit, refresh=False)
+                pb.update()
+            return self.Gb_fit, self.Gb_centroids
 
     def generate_population(self, n_clusters=13):
         population = []
-        for i in xrange(self.n_particles):
+
+        for i in tqdm(xrange(self.n_particles), desc='Generando Poblacion inicial', unit=' Particle'):
             individuo = []
             cluster = KMeans(n_clusters=n_clusters, random_state=self.seed)
             cluster_labels = cluster.fit_predict(self.data[:, 0:2])
