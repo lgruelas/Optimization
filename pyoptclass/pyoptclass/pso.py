@@ -11,19 +11,18 @@ class Particle:
         self._clusters = copy.deepcopy(clusters)
         self.centroids = []
         self.store_times = []
-        self.fitnes = float('-inf')
         self.vel = np.zeros([len(clusters), 2])
 
         for clusterPdV in clusters:
             self.centroids.append(clusterPdV.centroid)
             self.store_times.append(clusterPdV.total_time)
 
-        self.fit_function()
+        self.fitnes = self.fit_function()
         self.best_centroids = copy.deepcopy(self.centroids)
         self.best_fitnes = self.fitnes
 
     def fit_function(self):
-        self.fitnes = -1.0 * np.var(self.store_times)
+        return -1.0 * np.var(self.store_times)
 
     def move(self, W, C1, C2, Gb):
         R1, R2 = ranf(size=2)
