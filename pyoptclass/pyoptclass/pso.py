@@ -44,7 +44,7 @@ class Particle:
                 smallest = [float('inf'), None]
                 moved = []
                 for w in xrange(len(self.centroids)):
-                    if utils.euclidean(j, self.centroids[w]) < smallest:
+                    if utils.euclidean(j, self.centroids[w]) < smallest[0]:
                         smallest[0] = utils.euclidean(j, self.centroids[w])
                         smallest[1] = w
                 if smallest[1] != i:
@@ -71,7 +71,7 @@ class PSO:
     def search(self):
         self.find_best()
         with tqdm(total=self.max_iter, unit=' Epoch') as pb:
-            pb.set_postfix(var=self.Gb_fit)
+            pb.set_postfix(var=self.Gb_fit, refresh=False)
             for _ in xrange(self.max_iter):
                 for particle in self.population:
                     particle.move(self.W, self.C1, self.C2, self.Gb_centroids)
