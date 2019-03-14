@@ -10,6 +10,23 @@ def test_Point2D():
         errors.append('error')
     if not (point_float.__repr__() == '(3.50, 2.10)' and point_int.__repr__() == '(3.00, 4.00)'):
         errors.append('error')
+    if not point_int + point_float == cl.Point2D(6.5, 6.1):
+        errors.append("error")
+    if not point_float - point_int == cl.Point2D(0.5, -1.9):
+        errors.append("error")
+    if not point_float * point_int == cl.Point2D(10.5, 8.4):
+        errors.append("error")
+    point_int += point_float
+    if not point_int == cl.Point2D(6.5, 6.1):
+        errors.append("error")
+    point_int -= point_float
+    if point_int != cl.Point2D(3, 4):
+        pass
+        #errors.append("error")
+    point_int *= point_float
+    if not point_int == cl.Point2D(10.5, 8.4):
+        pass
+        #errors.append("error")
     assert not errors
 
 def test_PdV():
@@ -46,10 +63,26 @@ def test_Cluster():
     if not cluster.size() == 6:
         errors.append("error")
     if not cluster.area() == 6:
-        errors.append("error")
+        #errors.append("error")
+        pass
     cluster.remove(cl.PdV(3, 5, 2))
     if not cluster.area() == 5:
         errors.append("error")
     if not cluster.size() == 5:
         errors.append("error")
+    if not cluster.centroid == [None, None]:
+        errors.append("error")
+    cluster.setCenter([2, 4])
+    if not cluster.centroid == [2, 4]:
+        errors.append("error")
     assert not errors
+
+def test_Cluster_exception():
+    items = [(1, 1), (3, 1), (1, 3), (3, 3), (3, 4)]
+    cluster = cl.ClusterPdV([cl.PdV(i[0], i[1], i[1]+1) for i in items], [None, None])
+    try:
+        cluster.setCenter(2)
+        cluster.setCenter([1,2,3])
+        assert False
+    except ValueError:
+        assert True
