@@ -69,7 +69,7 @@ class Particle:
 
 
 class PSO:
-    def __init__(self, data, n_particles, seed=42, max_iter=10, W=1, C1=.5, C2=.5):
+    def __init__(self, data, n_particles, seed=42, max_iter=10, W=1, C1=.5, C2=.5, use_var=True):
         self.Gb_centroids = [float('-inf') for _ in xrange(13)]
         self.Gb_fit = float("-inf")
         self.data = data
@@ -79,6 +79,7 @@ class PSO:
         self.C1 = C1
         self.C2 = C2
         self.seed = np.random.RandomState(seed)
+        self.use_var = use_var
         self.population = self.generate_population()
 
     def search(self):
@@ -98,7 +99,7 @@ class PSO:
     def generate_population(self, n_clusters=13):
         population = []
 
-        for i in tqdm(xrange(self.n_particles), desc='Generando Poblacion inicial', unit=' Particle'):
+        for _ in tqdm(xrange(self.n_particles), desc='Generando Poblacion inicial', unit=' Particle'):
             individuo = []
             cluster = KMeans(n_clusters=n_clusters, random_state=self.seed)
             cluster_labels = cluster.fit_predict(self.data[:, 0:2])
@@ -111,7 +112,7 @@ class PSO:
                     classes.ClusterPdV([classes.PdV(*point[:-1]) for point in individuo_df[individuo_df.cluster == i].values],
                                classes.Point2D(*cluster.cluster_centers_[i])))
 
-            population.append(Particle(individuo))
+            population.append(Particle(individuo, self.use_var))
         return population
 
     def find_best(self):
