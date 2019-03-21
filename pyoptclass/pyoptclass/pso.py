@@ -8,7 +8,7 @@ from sklearn.cluster import KMeans
 
 
 class Particle:
-    def __init__(self, clusters,use_variance=True):
+    def __init__(self, clusters, use_variance=True):
         self._clusters = copy.deepcopy(clusters)
         self.centroids = []
         self.store_times = []
@@ -23,7 +23,7 @@ class Particle:
             self.fit_by_variance()
         else:
             self.fit_by_area()
-        print(self.fitness)
+
         self.best_centroids = copy.deepcopy(self.centroids)
         self.best_fitness = self.fitness
 
@@ -64,7 +64,7 @@ class Particle:
                 if smallest[1] != i:
                     self._clusters[smallest[1]].push_back(j)
                     moved.append(j)
-            if moved != []:
+            if moved:
                 for m in moved:
                     self._clusters[i].remove(m)
 
