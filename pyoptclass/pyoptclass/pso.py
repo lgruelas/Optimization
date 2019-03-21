@@ -65,7 +65,10 @@ class PSO:
         self.W = W
         self.C1 = C1
         self.C2 = C2
-        self.seed = np.random.RandomState(seed)
+        if seed != None:
+            self.seed = np.random.RandomState(seed)
+        else:
+            self.seed = None
         self.population = self.generate_population()
 
     def search(self):
