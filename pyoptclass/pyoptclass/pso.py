@@ -6,23 +6,32 @@ from numpy.random import ranf
 from pyoptclass import utils, classes
 from sklearn.cluster import KMeans
 
+
 class Particle:
-    def __init__(self, clusters):
+    def __init__(self, clusters,use_variance=True):
         self._clusters = copy.deepcopy(clusters)
         self.centroids = []
         self.store_times = []
         self.vel = np.zeros([len(clusters), 2])
-
+        self.use_variance = use_variance
+        self.fitness = float('-inf')
         for clusterPdV in clusters:
             self.centroids.append(clusterPdV.centroid)
             self.store_times.append(clusterPdV.total_time)
 
-        self.fitnes = self.fit_function()
-        self.best_centroids = copy.deepcopy(self.centroids)
-        self.best_fitnes = self.fitnes
+        if self.use_variance:
+            self.fit_by_variance()
+        else:
+            self.fit_by_area()
 
-    def fit_function(self):
-        return -1.0 * np.var(self.store_times)
+        self.best_centroids = copy.deepcopy(self.centroids)
+        self.best_fitness = self.fitness
+
+    def fit_by_variance(self):
+        self.fitness = -1.0 * np.var(self.store_times)
+
+    def fit_by_area(self):
+        self.fitness = -1.0 * np.var([cluster._area for cluster in self._clusters])
 
     def move(self, W, C1, C2, Gb):
         R1, R2 = ranf(size=2)
@@ -32,10 +41,14 @@ class Particle:
             self.centroids[i] += classes.Point2D(*self.vel[i])
 
         self.recluster()
-        self.fitnes = self.fit_function()
 
-        if self.fitnes > self.best_fitnes:
-            self.best_fitnes = self.fitnes
+        if self.use_variance:
+            self.fit_by_variance()
+        else:
+            self.fit_by_area()
+
+        if self.fitness > self.best_fitness:
+            self.best_fitness = self.fitness
             self.best_centroids = self.centroids[:]
 
     def recluster(self):
@@ -71,14 +84,14 @@ class PSO:
     def search(self):
         self.find_best()
         with tqdm(total=self.max_iter, unit=' Epoch') as pb:
-            pb.set_postfix(var=self.Gb_fit, refresh=False)
+            pb.set_postfix(fitness=self.Gb_fit, refresh=False)
             for _ in xrange(self.max_iter):
                 for particle in self.population:
                     particle.move(self.W, self.C1, self.C2, self.Gb_centroids)
-                    if particle.fitnes > self.Gb_fit:
-                        self.Gb_fit = particle.fitnes
+                    if particle.fitness > self.Gb_fit:
+                        self.Gb_fit = particle.fitness
                         self.Gb_centroids = particle.centroids[:]
-                        pb.set_postfix(var=self.Gb_fit, refresh=False)
+                        pb.set_postfix(fitness=self.Gb_fit, refresh=False)
                 pb.update()
             return self.Gb_fit, self.Gb_centroids
 
@@ -103,6 +116,6 @@ class PSO:
 
     def find_best(self):
         for particle in self.population:
-            if particle.fitnes > self.Gb_fit:
-                self.Gb_fit = particle.fitnes
+            if particle.fitness > self.Gb_fit:
+                self.Gb_fit = particle.fitness
                 self.Gb_centroids = particle.centroids
