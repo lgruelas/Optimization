@@ -23,7 +23,7 @@ class Particle:
             self.fit_by_variance()
         else:
             self.fit_by_area()
-
+        print(self.fitness)
         self.best_centroids = copy.deepcopy(self.centroids)
         self.best_fitness = self.fitness
 
@@ -31,13 +31,14 @@ class Particle:
         self.fitness = -1.0 * np.var(self.store_times)
 
     def fit_by_area(self):
-        self.fitness = -1.0 * np.var([cluster._area for cluster in self._clusters])
+        self.fitness = -1.0 * np.var([cluster.area() for cluster in self._clusters])
 
     def move(self, W, C1, C2, Gb):
         R1, R2 = ranf(size=2)
 
         for i in xrange(len(self.centroids)):
-            self.vel[i] = (W * self.vel[i]) + (C1 * R1 * (utils.euclidean(self.best_centroids[i] , self.centroids[i]))) + (C2 * R2 * (utils.euclidean(Gb[i] , self.centroids[i])))
+            self.vel[i] = (W * self.vel[i]) + (C1 * R1 * (utils.euclidean(self.best_centroids[i], self.centroids[i])))\
+                          + (C2 * R2 * (utils.euclidean(Gb[i] , self.centroids[i])))
             self.centroids[i] += classes.Point2D(*self.vel[i])
 
         self.recluster()
@@ -109,8 +110,9 @@ class PSO:
                                          'cluster': cluster_labels})
             for i in xrange(n_clusters):
                 individuo.append(
-                    classes.ClusterPdV([classes.PdV(*point[:-1]) for point in individuo_df[individuo_df.cluster == i].values],
-                               classes.Point2D(*cluster.cluster_centers_[i])))
+                    classes.ClusterPdV(
+                        [classes.PdV(*point[:-1]) for point in individuo_df[individuo_df.cluster == i].values],
+                        classes.Point2D(*cluster.cluster_centers_[i])))
 
             population.append(Particle(individuo, self.use_var))
         return population
